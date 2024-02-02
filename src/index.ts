@@ -1,7 +1,15 @@
 import { Elysia } from "elysia";
+import staticPlugin from "@elysiajs/static";
 
-const app = new Elysia().get("/", () => "Hello Elysia").listen(3000);
+import pagesRouter from "~/pages";
+import controllerRouter from "~/controllers";
 
-console.log(
-  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
-);
+const app = new Elysia()
+  .use(staticPlugin())
+  .use(controllerRouter)
+  .use(pagesRouter)
+  .listen(3000);
+
+export type App = typeof app;
+
+console.log(`🦊 Elysia is running at ${app.server?.url}`);
