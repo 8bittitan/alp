@@ -5,6 +5,8 @@ const env = createEnv({
   server: {
     DATABASE_URL: z.string().min(1),
     NODE_ENV: z.enum(["development", "production"]),
+    UPSTASH_URL: z.string(),
+    UPSTASH_TOKEN: z.string(),
   },
   runtimeEnv: process.env,
 });

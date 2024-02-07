@@ -1,90 +1,113 @@
-import { Elysia } from "elysia";
+import { Elysia, t } from "elysia";
+import { eq } from "drizzle-orm";
 
-import auth from "../lib/auth";
-import { login, signup } from "../models/user";
+import auth from "~/lib/auth";
+import { deleteUserAccount, login, signup } from "~/models/user";
+import userMiddleware from "~/middleware/user";
+import { session } from "~/lib/db/schema";
+import ctx from "~/middleware";
 
 const authControllers = new Elysia({
   name: "@controllers/auth",
 })
-  .post("/signup", async ({ request, cookie }) => {
-    const fData = await request.formData();
+  .use(ctx)
+  .guard(
+    {
+      body: t.Object({
+        username: t.String(),
+        password: t.String(),
+      }),
+    },
+    (app) =>
+      app
+        .post("/signup", async ({ body, cookie }) => {
+          const user = await signup(body);
 
-    const username = fData.get("username")?.toString() ?? "";
-    const password = fData.get("password")?.toString() ?? "";
+          if (!user) {
+            return new Response("Failed to create user", {
+              status: 422,
+            });
+          }
 
-    const user = await signup({ username, password });
+          const session = await auth.createSession(user.id, {});
+          const sessionCookie = auth.createSessionCookie(session.id);
 
-    if (!user) {
-      return new Response("Failed to create user", {
-        status: 422,
-      });
-    }
+          cookie[sessionCookie.name].set({
+            value: sessionCookie.value,
+            ...sessionCookie.attributes,
+          });
 
-    const session = await auth.createSession(user.id, {});
-    const sessionCookie = auth.createSessionCookie(session.id);
+          return new Response(null, {
+            status: 200,
+            headers: {
+              "HX-Redirect": "/dashboard",
+            },
+          });
+        })
+        .post("/login", async ({ body, cookie }) => {
+          const u = await login(body);
 
-    cookie[sessionCookie.name].set({
-      value: sessionCookie.value,
-      ...sessionCookie.attributes,
-    });
+          if (!u) {
+            return new Response("Invalid username or password", {
+              status: 401,
+            });
+          }
 
-    return new Response(null, {
-      status: 200,
-      headers: {
-        "HX-Redirect": "/dashboard",
-      },
-    });
-  })
-  .post("/login", async ({ request, cookie, set }) => {
-    const fData = await request.formData();
+          const session = await auth.createSession(u.id, {});
+          const sessionCookie = auth.createSessionCookie(session.id);
 
-    const username = fData.get("username")?.toString() ?? "";
-    const password = fData.get("password")?.toString() ?? "";
+          cookie[sessionCookie.name].set({
+            value: sessionCookie.value,
+            ...sessionCookie.attributes,
+          });
 
-    const u = await login({ username, password });
-
-    if (!u) {
-      return new Response("Invalid username or password", {
-        status: 401,
-      });
-    }
-
-    const session = await auth.createSession(u.id, {});
-    const sessionCookie = auth.createSessionCookie(session.id);
-
-    cookie[sessionCookie.name].set({
-      value: sessionCookie.value,
-      ...sessionCookie.attributes,
-    });
-
-    return new Response(null, {
-      status: 200,
-      headers: {
-        "HX-Redirect": "/dashboard",
-      },
-    });
-  })
-  .get("/logout", async (ctx) => {
-    const cookieHeader = ctx.request.headers.get("Cookie") || "";
-    const sessionId = auth.readSessionCookie(cookieHeader);
-
-    if (!sessionId) {
-      return new Response(null, {
-        status: 200,
-        headers: {
-          "HX-Redirect": "/login",
+          return new Response(null, {
+            status: 200,
+            headers: {
+              "HX-Redirect": "/dashboard",
+            },
+          });
+        })
+  )
+  .group("", (app) =>
+    app.use(userMiddleware).guard(
+      {
+        beforeHandle({ session, user }) {
+          if (!session || !user) {
+            return new Response(null, {
+              status: 302,
+              headers: {
+                Location: "/login",
+              },
+            });
+          }
         },
-      });
-    }
-
-    await auth.invalidateSession(sessionId);
-
-    return new Response(null, {
-      status: 200,
-      headers: {
-        "HX-Redirect": "/login",
       },
-    });
-  });
+      (app) =>
+        app
+          .get("/logout", async ({ session }) => {
+            await auth.invalidateSession(session!.id);
+
+            return new Response(null, {
+              status: 200,
+              headers: {
+                "HX-Redirect": "/login",
+              },
+            });
+          })
+          .delete("/user", async ({ user, db }) => {
+            await db.delete(session).where(eq(session.userId, user!.id));
+
+            await deleteUserAccount(user!);
+
+            return new Response(null, {
+              status: 200,
+              headers: {
+                "HX-Redirect": "/login",
+              },
+            });
+          })
+    )
+  );
 
 export default authControllers;

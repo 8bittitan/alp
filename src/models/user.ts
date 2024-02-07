@@ -1,4 +1,4 @@
-import { generateId } from "lucia";
+import { User, generateId } from "lucia";
 import { Argon2id } from "oslo/password";
 
 import db from "../lib/db";
@@ -53,4 +53,8 @@ export async function login({ username, password }: UserInputDTO) {
   }
 
   return u;
+}
+
+export async function deleteUserAccount(u: User) {
+  await db.delete(user).where(eq(user.id, u.id));
 }

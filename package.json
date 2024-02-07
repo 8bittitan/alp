@@ -3,21 +3,28 @@
   "version": "1.0.50",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "concurrently \"bun run --hot src/index.ts\" \"tailwindcss -i src/styles/tailwind.css -o public/styles/app.css --watch\"",
-    "db:generate": "drizzle-kit generate:sqlite",
-    "db:migrate": "drizzle-kit push:pg"
+    "dev": "concurrently --names \"🦊,💨,🌀\" -c \"auto\" \"bun run --hot src/index.ts\" \"bun run tailwind:dev\" \"bun run livereload\"",
+    "db:migrate": "drizzle-kit push:pg",
+    "livereload": "bun run scripts/livereload.ts",
+    "tailwind:dev": "tailwindcss -i src/styles/tailwind.css -o public/styles/app.css --watch"
   },
   "dependencies": {
+    "@bogeychan/elysia-logger": "^0.0.16",
     "@elysiajs/html": "^0.8.0",
     "@elysiajs/static": "^0.8.1",
     "@lucia-auth/adapter-drizzle": "^1.0.0",
     "@neondatabase/serverless": "^0.7.2",
     "@t3-oss/env-core": "^0.8.0",
+    "@upstash/redis": "^1.28.3",
+    "add": "^2.0.6",
+    "bun": "^1.0.25",
     "dotenv": "^16.4.1",
     "drizzle-orm": "^0.29.3",
     "elysia": "latest",
     "lucia": "^3.0.1",
     "oslo": "^1.0.3",
+    "pg": "^8.11.3",
+    "pino-pretty": "^10.3.1",
     "zod": "^3.22.4"
   },
   "devDependencies": {
