@@ -5,6 +5,6 @@ type Children =
   | boolean
   | null
   | undefined
-  | Children[];
+  | Children[]
 
-export type PropsWithChildren<T = {}> = { children?: Children } & T;
+export type PropsWithChildren<T = {}> = { children?: Children } & T

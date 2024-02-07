@@ -1,8 +1,8 @@
-import Button from "~/components/button";
+import Button from '~/components/button'
 
 type Props = {
-  defaultKey: string;
-};
+  defaultKey: string
+}
 
 export default function CreateLinkForm({ defaultKey }: Props) {
   return (
@@ -14,11 +14,11 @@ export default function CreateLinkForm({ defaultKey }: Props) {
       hx-on-htmx-after-request="event.detail.target.dispatchEvent(new CustomEvent('close-modal', {bubbles: true}))"
     >
       {/* <input type="text" placeholder="domain" name="domain" id="domain" /> */}
-      <label class="flex flex-col space-y-1 mb-4">
+      <label class="mb-4 flex flex-col space-y-1">
         <span>Destination URL</span>
         <input type="text" placeholder="url" name="url" id="url" />
       </label>
-      <label class="flex flex-col space-y-1 mb-4">
+      <label class="mb-4 flex flex-col space-y-1">
         <span>Short link</span>
         <input
           type="text"
@@ -32,5 +32,5 @@ export default function CreateLinkForm({ defaultKey }: Props) {
         <Button type="submit">Create Link</Button>
       </div>
     </form>
-  );
+  )
 }

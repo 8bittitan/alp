@@ -1,9 +1,9 @@
-import { drizzle } from "drizzle-orm/neon-http";
-import { neon } from "@neondatabase/serverless";
+import { neon } from '@neondatabase/serverless'
+import { drizzle } from 'drizzle-orm/neon-http'
 
-import env from "~/lib/env";
+import env from '~/lib/env'
 
-const sql = neon(env.DATABASE_URL);
-const db = drizzle(sql, { logger: true });
+export const sql = neon(env.DATABASE_URL)
+const db = drizzle(sql, { logger: true })
 
-export default db;
+export default db

@@ -1,23 +1,23 @@
-import CreateLinkForm from "./create-link-form";
+import CreateLinkForm from './create-link-form'
 
 type Props = {
-  defaultKey: string;
-};
+  defaultKey: string
+}
 
 export default function CreateLinkModal({ defaultKey }: Props) {
   const keyEventProps = {
-    "@keyup.escape": "createLinkModalOpen=false",
-  };
+    '@keyup.escape': 'createLinkModalOpen=false',
+  }
 
   const trapScrollProps = {
-    "x-trap.inert.noscroll": "createLinkModalOpen",
-  };
+    'x-trap.inert.noscroll': 'createLinkModalOpen',
+  }
 
   return (
     <template x-teleport="body">
       <div
         x-show="createLinkModalOpen"
-        class="fixed top-0 left-0 z-[99] flex items-center justify-center w-screen h-screen"
+        class="fixed left-0 top-0 z-[99] flex h-screen w-screen items-center justify-center"
         x-cloak
       >
         <div
@@ -29,7 +29,7 @@ export default function CreateLinkModal({ defaultKey }: Props) {
           x-transition:leave-start="opacity-100"
           x-transition:leave-end="opacity-0"
           x-on:click="createLinkModalOpen=false"
-          class="absolute inset-0 w-full h-full bg-black bg-opacity-40"
+          class="absolute inset-0 h-full w-full bg-black bg-opacity-40"
         ></div>
         <div
           x-show="createLinkModalOpen"
@@ -39,7 +39,7 @@ export default function CreateLinkModal({ defaultKey }: Props) {
           x-transition:leave="ease-in duration-200"
           x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
           x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-          class="relative w-full py-6 bg-white px-7 sm:max-w-lg sm:rounded-lg"
+          class="relative w-full bg-white px-7 py-6 sm:max-w-lg sm:rounded-lg"
           {...trapScrollProps}
           {...keyEventProps}
         >
@@ -47,10 +47,10 @@ export default function CreateLinkModal({ defaultKey }: Props) {
             <h3 class="text-lg font-semibold">Create a New Link</h3>
             <button
               x-on:click="createLinkModalOpen=false"
-              class="absolute top-0 right-0 flex items-center justify-center w-8 h-8 mt-5 mr-5 text-gray-600 rounded-full hover:text-gray-800 hover:bg-gray-50"
+              class="absolute right-0 top-0 mr-5 mt-5 flex h-8 w-8 items-center justify-center rounded-full text-gray-600 hover:bg-gray-50 hover:text-gray-800"
             >
               <svg
-                class="w-5 h-5"
+                class="h-5 w-5"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -71,5 +71,5 @@ export default function CreateLinkModal({ defaultKey }: Props) {
         </div>
       </div>
     </template>
-  );
+  )
 }

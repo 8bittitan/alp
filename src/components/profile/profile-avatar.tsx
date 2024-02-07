@@ -1,23 +1,24 @@
-import { User } from "lucia";
-import { PropsWithChildren } from "~/types/jsx";
-import Button from "../button";
+import { User } from 'lucia'
+
+import Button from '../button'
+import { PropsWithChildren } from '~/types/jsx'
 
 type Props = {
-  user: User;
-};
+  user: User
+}
 
 export default function ProfileAvatar({ user }: PropsWithChildren<Props>) {
   return (
     <>
       <form
-        class="border border-gray-200 rounded-md"
+        class="rounded-md border border-gray-200"
         x-data="{
           files: [],
         }"
       >
-        <div class="p-5 flex flex-col space-y-6">
+        <div class="flex flex-col space-y-6 p-5">
           <div class="flex flex-col space-y-2">
-            <h3 class="font-medium text-xl">Your Avatar</h3>
+            <h3 class="text-xl font-medium">Your Avatar</h3>
             <p class="text-sm text-gray-500">Your personal avatar on Alp</p>
           </div>
 
@@ -37,5 +38,5 @@ export default function ProfileAvatar({ user }: PropsWithChildren<Props>) {
         </footer>
       </form>
     </>
-  );
+  )
 }

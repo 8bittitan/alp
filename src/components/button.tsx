@@ -1,6 +1,6 @@
-import { PropsWithChildren } from "~/types/jsx";
+import { PropsWithChildren } from '~/types/jsx'
 
-type ButtonProps = Record<string, unknown>;
+type ButtonProps = Record<string, unknown>
 
 export default function Button({
   children,
@@ -8,12 +8,12 @@ export default function Button({
 }: PropsWithChildren<ButtonProps>) {
   return (
     <button
-      class="inline-flex items-center w-full px-4 py-2 text-sm font-medium leading-4 text-white bg-gray-900 md:w-auto md:rounded-full hover:bg-gray-800 focus:outline-none md:focus:ring-2 focus:ring-0 focus:ring-offset-2 focus:ring-gray-800"
+      class="inline-flex w-full items-center bg-gray-900 px-4 py-2 text-sm font-medium leading-4 text-white hover:bg-gray-800 focus:outline-none focus:ring-0 focus:ring-gray-800 focus:ring-offset-2 md:w-auto md:rounded-full md:focus:ring-2"
       {...props}
     >
       {children}
     </button>
-  );
+  )
 }
 
 export function DeleteButton({
@@ -22,10 +22,10 @@ export function DeleteButton({
 }: PropsWithChildren<ButtonProps>) {
   return (
     <button
-      class="inline-flex items-center w-full px-4 py-2 text-sm font-medium leading-4 text-white bg-red-600 md:w-auto md:rounded-full hover:bg-red-800 focus:outline-none md:focus:ring-2 focus:ring-0 focus:ring-offset-2 focus:ring-gray-800"
+      class="inline-flex w-full items-center bg-red-600 px-4 py-2 text-sm font-medium leading-4 text-white hover:bg-red-800 focus:outline-none focus:ring-0 focus:ring-gray-800 focus:ring-offset-2 md:w-auto md:rounded-full md:focus:ring-2"
       {...props}
     >
       {children}
     </button>
-  );
+  )
 }

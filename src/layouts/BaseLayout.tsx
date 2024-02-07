@@ -1,22 +1,23 @@
-import { User } from "lucia";
-import Avatar from "~/components/avatar";
+import { User } from 'lucia'
+
+import Avatar from '~/components/avatar'
 import {
   Dropdown,
   DropdownContent,
   DropdownTrigger,
-} from "~/components/dropdown";
-import env from "~/lib/env";
-import { liveReloadScript } from "~/lib/utils";
-import { PropsWithChildren } from "~/types/jsx";
+} from '~/components/dropdown'
+import env from '~/lib/env'
+import { liveReloadScript } from '~/lib/utils'
+import { PropsWithChildren } from '~/types/jsx'
 
 type Props = {
-  user: User | null;
-};
+  user: User | null
+}
 
-const reloadScript = env.NODE_ENV === "development" ? liveReloadScript() : "";
+const reloadScript = env.NODE_ENV === 'development' ? liveReloadScript() : ''
 
 function BaseLayout({ children, user }: PropsWithChildren<Props>) {
-  const rootRouteHref = user ? "/dashboard" : "/";
+  const rootRouteHref = user ? '/dashboard' : '/'
 
   return (
     <html lang="en">
@@ -42,23 +43,23 @@ function BaseLayout({ children, user }: PropsWithChildren<Props>) {
       </head>
       <body hx-boost="true">
         <div class="mb-4 bg-black text-white">
-          <nav class="flex items-center w-full py-3 select-none justify-between mx-auto max-w-7xl">
+          <nav class="mx-auto flex w-full max-w-7xl select-none items-center justify-between py-3">
             <a href={rootRouteHref}>ALP</a>
 
-            <div class="flex justify-center items-center rounded-full border-gray-700 border">
+            <div class="flex items-center justify-center rounded-full border border-gray-700">
               <a
                 href="/dashboard"
-                class="relative inline-block w-full h-full px-2 py-2 group mx-3 font-medium leading-tight text-center"
+                class="group relative mx-3 inline-block h-full w-full px-2 py-2 text-center font-medium leading-tight"
               >
                 <span>Dashboard</span>
-                <span class="absolute bottom-0 left-0 w-full h-px duration-300 ease-out translate-y-px bg-gradient-to-r md:from-gray-700 md:via-gray-400 md:to-gray-700 from-gray-900 via-gray-600 to-gray-900"></span>
+                <span class="absolute bottom-0 left-0 h-px w-full translate-y-px bg-gradient-to-r from-gray-900 via-gray-600 to-gray-900 duration-300 ease-out md:from-gray-700 md:via-gray-400 md:to-gray-700"></span>
               </a>
               <a
                 href="/analytics"
-                class="relative inline-block w-full h-full px-2 py-2 group mx-3 font-medium leading-tight text-center"
+                class="group relative mx-3 inline-block h-full w-full px-2 py-2 text-center font-medium leading-tight"
               >
                 <span>Analytics</span>
-                <span class="absolute bottom-0 w-0 h-px duration-300 ease-out translate-y-px group-hover:left-0 left-1/2 group-hover:w-full bg-gradient-to-r md:from-gray-700 md:via-gray-400 md:to-gray-700 from-gray-900 via-gray-600 to-gray-900"></span>
+                <span class="absolute bottom-0 left-1/2 h-px w-0 translate-y-px bg-gradient-to-r from-gray-900 via-gray-600 to-gray-900 duration-300 ease-out group-hover:left-0 group-hover:w-full md:from-gray-700 md:via-gray-400 md:to-gray-700"></span>
               </a>
             </div>
 
@@ -70,7 +71,7 @@ function BaseLayout({ children, user }: PropsWithChildren<Props>) {
                 <DropdownContent>
                   <a
                     href="/api/logout"
-                    class="relative flex cursor-pointer select-none hover:bg-neutral-100 focus:bg-neutral-100 items-center rounded px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+                    class="focus:bg-accent focus:text-accent-foreground relative flex cursor-pointer select-none items-center rounded px-2 py-1.5 text-sm outline-none transition-colors hover:bg-neutral-100 focus:bg-neutral-100 data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -82,7 +83,7 @@ function BaseLayout({ children, user }: PropsWithChildren<Props>) {
                       stroke-width="2"
                       stroke-linecap="round"
                       stroke-linejoin="round"
-                      class="w-4 h-4 mr-2"
+                      class="mr-2 h-4 w-4"
                     >
                       <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
                       <polyline points="16 17 21 12 16 7"></polyline>
@@ -98,7 +99,7 @@ function BaseLayout({ children, user }: PropsWithChildren<Props>) {
         <main class="mx-auto max-w-7xl">{children}</main>
       </body>
     </html>
-  );
+  )
 }
 
-export default BaseLayout;
+export default BaseLayout

@@ -1,19 +1,19 @@
-import { User, generateId } from "lucia";
-import { Argon2id } from "oslo/password";
+import { eq } from 'drizzle-orm'
+import { generateId, User } from 'lucia'
+import { Argon2id } from 'oslo/password'
 
-import db from "../lib/db";
-import { user } from "../lib/db/schema";
-import { eq } from "drizzle-orm";
+import db from '~/lib/db'
+import { user } from '~/lib/db/schema'
 
 type UserInputDTO = {
-  username: string;
-  password: string;
-};
+  username: string
+  password: string
+}
 
 export async function signup({ username, password }: UserInputDTO) {
   try {
-    const userId = generateId(15);
-    const hashedPassword = await new Argon2id().hash(password);
+    const userId = generateId(15)
+    const hashedPassword = await new Argon2id().hash(password)
 
     const [u] = await db
       .insert(user)
@@ -22,12 +22,12 @@ export async function signup({ username, password }: UserInputDTO) {
         username,
         hashedPassword,
       })
-      .returning();
+      .returning()
 
-    return { id: u.id };
+    return { id: u.id }
   } catch (e) {
-    console.error(e);
-    return null;
+    console.error(e)
+    return null
   }
 }
 
@@ -37,24 +37,24 @@ export async function login({ username, password }: UserInputDTO) {
     .from(user)
     .where(eq(user.username, username))
     .limit(1)
-    .execute();
+    .execute()
 
   if (!u) {
-    return null;
+    return null
   }
 
   const isPasswordValid = await new Argon2id().verify(
-    u.hashedPassword ?? "",
-    password
-  );
+    u.hashedPassword ?? '',
+    password,
+  )
 
   if (!isPasswordValid) {
-    return null;
+    return null
   }
 
-  return u;
+  return u
 }
 
 export async function deleteUserAccount(u: User) {
-  await db.delete(user).where(eq(user.id, u.id));
+  await db.delete(user).where(eq(user.id, u.id))
 }

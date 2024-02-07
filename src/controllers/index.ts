@@ -1,13 +1,13 @@
-import { Elysia } from "elysia";
+import { Elysia } from 'elysia'
 
-import authControllers from "~/controllers/authController";
-import linksController from "~/controllers/linksController";
+import authControllers from '~/controllers/authController'
+import linksController from '~/controllers/linksController'
 
 const controllerRouter = new Elysia({
-  name: "@router/controllers",
-  prefix: "/api",
+  name: '@router/controllers',
+  prefix: '/api',
 })
   .use(authControllers)
-  .use(linksController);
+  .use(linksController)
 
-export default controllerRouter;
+export default controllerRouter

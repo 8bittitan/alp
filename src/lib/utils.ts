@@ -16,5 +16,5 @@ export function liveReloadScript() {
         }, 100);
       };
     })();
-  `;
+  `
 }

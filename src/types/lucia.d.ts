@@ -1,12 +1,12 @@
-import type { Auth } from "../lib/auth";
+import type { Auth } from '../lib/auth'
 
 interface DatabaseUserAttributes {
-  username: string;
+  username: string
 }
 
-declare module "lucia" {
+declare module 'lucia' {
   interface Register {
-    Lucia: Auth;
-    DatabaseUserAttributes: DatabaseUserAttributes;
+    Lucia: Auth
+    DatabaseUserAttributes: DatabaseUserAttributes
   }
 }

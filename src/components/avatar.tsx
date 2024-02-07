@@ -1,8 +1,8 @@
-import { User } from "lucia";
+import { User } from 'lucia'
 
 type AvatarProps = {
-  user: User;
-};
+  user: User
+}
 
 export default function Avatar({ user }: AvatarProps) {
   return (
@@ -12,9 +12,9 @@ export default function Avatar({ user }: AvatarProps) {
         alt={`Avatar for ${user.username}`}
         referrer-policy="no-referrer"
         draggable="false"
-        class="object-cover w-10 h-10 border rounded-full"
+        class="h-10 w-10 rounded-full border object-cover"
       />
       <span class="sr-only">{user.username}</span>
     </>
-  );
+  )
 }

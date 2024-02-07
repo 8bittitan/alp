@@ -1,12 +1,13 @@
-import { Elysia } from "elysia";
-import BaseLayout from "~/layouts/BaseLayout";
-import userMiddleware from "~/middleware/user";
+import { Elysia } from 'elysia'
+
+import BaseLayout from '~/layouts/BaseLayout'
+import userMiddleware from '~/middleware/user'
 
 const authPages = new Elysia({
-  name: "@router/pages/auth",
+  name: '@router/pages/auth',
 })
   .use(userMiddleware)
-  .get("/", ({ user }) => (
+  .get('/', ({ user }) => (
     <BaseLayout user={user}>
       <h1>Hello world!</h1>
       <form
@@ -31,7 +32,7 @@ const authPages = new Elysia({
       </form>
     </BaseLayout>
   ))
-  .get("/login", ({ user }) => (
+  .get('/login', ({ user }) => (
     <BaseLayout user={user}>
       <h1>Login</h1>
       <form
@@ -55,6 +56,6 @@ const authPages = new Elysia({
         <button type="submit">Login</button>
       </form>
     </BaseLayout>
-  ));
+  ))
 
-export default authPages;
+export default authPages

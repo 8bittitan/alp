@@ -1,15 +1,16 @@
-import { Elysia } from "elysia";
-import { generateId } from "lucia";
-import CreateLinkButton from "~/components/links/create-button";
-import CreateLinkModal from "~/components/links/create-link-modal";
-import Link from "~/components/links/link";
-import BaseLayout from "~/layouts/BaseLayout";
-import ctx from "~/middleware";
-import userMiddleware from "~/middleware/user";
-import { getUserLinks } from "~/models/link";
+import { Elysia } from 'elysia'
+import { generateId } from 'lucia'
+
+import CreateLinkButton from '~/components/links/create-button'
+import CreateLinkModal from '~/components/links/create-link-modal'
+import Link from '~/components/links/link'
+import BaseLayout from '~/layouts/BaseLayout'
+import ctx from '~/middleware'
+import userMiddleware from '~/middleware/user'
+import { getUserLinks } from '~/models/link'
 
 const dashboardPage = new Elysia({
-  name: "@router/pages/dashboard",
+  name: '@router/pages/dashboard',
 })
   .use(userMiddleware)
   .use(ctx)
@@ -20,17 +21,17 @@ const dashboardPage = new Elysia({
           return new Response(null, {
             status: 302,
             headers: {
-              Location: "/login",
+              Location: '/login',
             },
-          });
+          })
         }
       },
     },
     (app) =>
-      app.get("/dashboard", async ({ user }) => {
-        const links = await getUserLinks(user!.id);
+      app.get('/dashboard', async ({ user }) => {
+        const links = await getUserLinks(user!.id)
 
-        const newLinkKey = generateId(15);
+        const newLinkKey = generateId(15)
 
         return (
           <BaseLayout user={user}>
@@ -38,13 +39,13 @@ const dashboardPage = new Elysia({
               x-data="{ createLinkModalOpen: false }"
               x-on:close-modal="createLinkModalOpen = false"
             >
-              <header class="flex justify-between items-center">
+              <header class="flex items-center justify-between">
                 <h1>Dashboard</h1>
 
                 <CreateLinkButton />
               </header>
 
-              <div class="flex flex-col space-y-4 mt-4" id="links">
+              <div class="mt-4 flex flex-col space-y-4" id="links">
                 {links.map((link) => (
                   <Link link={link} />
                 ))}
@@ -53,8 +54,8 @@ const dashboardPage = new Elysia({
               <CreateLinkModal defaultKey={newLinkKey} />
             </div>
           </BaseLayout>
-        );
-      })
-  );
+        )
+      }),
+  )
 
-export default dashboardPage;
+export default dashboardPage

@@ -1,31 +1,31 @@
-import { PropsWithChildren } from "~/types/jsx";
+import { PropsWithChildren } from '~/types/jsx'
 
 export function Dropdown({ children }: PropsWithChildren) {
   return (
     <div x-data="{ dropdownOpen: false }" class="relative">
       {children}
     </div>
-  );
+  )
 }
 
 export function DropdownTrigger({ children }: PropsWithChildren) {
   const buttonProps = {
-    "@click": "dropdownOpen = true",
-  };
+    '@click': 'dropdownOpen = true',
+  }
 
-  return <button {...buttonProps}>{children}</button>;
+  return <button {...buttonProps}>{children}</button>
 }
 
 export function DropdownContent({ children }: PropsWithChildren) {
   const parentDivProps = {
-    "@click.away": "dropdownOpen = false",
-    "@keydown.escape": "dropdownOpen = false",
-    "x-trap.inert.noscroll": "dropdownOpen",
-  };
+    '@click.away': 'dropdownOpen = false',
+    '@keydown.escape': 'dropdownOpen = false',
+    'x-trap.inert.noscroll': 'dropdownOpen',
+  }
 
   return (
     <div
-      class="absolute top-0 z-50 w-56 mt-12 -translate-x-1/2 left-1/2"
+      class="absolute left-1/2 top-0 z-50 mt-12 w-56 -translate-x-1/2"
       x-show="dropdownOpen"
       x-transition:enter="transition ease-out duration-200"
       x-transition:enter-start="opacity-0 -translate-y-2"
@@ -33,9 +33,9 @@ export function DropdownContent({ children }: PropsWithChildren) {
       x-cloak
       {...parentDivProps}
     >
-      <div class="p-1 mt-1 bg-white border rounded-md shadow-md border-neutral-200/70 text-neutral-700">
+      <div class="mt-1 rounded-md border border-neutral-200/70 bg-white p-1 text-neutral-700 shadow-md">
         {children}
       </div>
     </div>
-  );
+  )
 }
